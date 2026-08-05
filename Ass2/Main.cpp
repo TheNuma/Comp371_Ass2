@@ -35,6 +35,7 @@ float rotationX = 10.0f;
 float rotationY = 45.0f;
 float rotationZ = 0.0f;
 float scale = 1.0f;
+bool rotationKeyDown = false;
 
 //Handles all inputs for translating the pyramid
 void processInput(GLFWwindow* window) {
@@ -42,10 +43,22 @@ void processInput(GLFWwindow* window) {
 	const float s = 0.05f;
 
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-		rotationZ += 30.0f;
+		if (!rotationKeyDown)
+			rotationZ += 30.0f;
+		rotationKeyDown = true;
+	}
+	else {
+		if (glfwGetKey(window, GLFW_KEY_Q) != GLFW_PRESS)
+			rotationKeyDown = false;
 	}
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-		rotationZ -= 30.0f;
+		if (!rotationKeyDown)
+			rotationZ -= 30.0f;
+		rotationKeyDown = true;
+	}
+	else {
+		if (glfwGetKey(window, GLFW_KEY_E) != GLFW_PRESS)
+			rotationKeyDown = false;
 	}
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		locationY += d;
