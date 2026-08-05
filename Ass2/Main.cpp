@@ -28,8 +28,47 @@ const char* fragmentShaderSource = R"(#version 330 core
     }
 )";
 
-//TODO: write an inputProcessor function, assignment says to only have to rotate on z, i think itll be fun if it could also rotate on y! x too if youre feeling ~wild~
+//State variables for all pyramid translations
+float locationX = 0.0f;
+float locationY = 0.0f;
+float rotationX = 10.0f;
+float rotationY = 45.0f;
+float rotationZ = 0.0f;
+float scale = 1.0f;
 
+//Handles all inputs for translating the pyramid
+void processInput(GLFWwindow* window) {
+	const float d = 0.01f;
+	const float s = 0.05f;
+
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
+		rotationZ += 30.0f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+		rotationZ -= 30.0f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+		locationY += d;
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+		locationX -= d;
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+		locationY -= d;
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		locationX += d;
+	}
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
+		scale += s;
+	}
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
+		scale -= s;
+	}
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, true);
+	}
+}
 
 int main() {
 	//initialize GLFW
@@ -119,9 +158,6 @@ int main() {
 
 	//initial pyramid transformation (so we see the base and at least 2 sides)
 	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
-	float rotationX = 10.0f;
-	float rotationY = 45.0f;
-	float rotationZ = 0.0f;
 	glm::vec3 scaleVec = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	//render loop
@@ -137,9 +173,11 @@ int main() {
 		transform = glm::rotate(transform, glm::radians(rotationX), glm::vec3(1.0f, 0.0f, 0.0f));
 		transform = glm::rotate(transform, glm::radians(rotationY), glm::vec3(0.0f, 1.0f, 0.0f));
 
-		//TODO: apply input transformations
-
-
+		//Apply translations upon user input
+		transform = glm::translate(transform, glm::vec3(locationX, locationY, 0));
+		transform = glm::rotate(transform, glm::radians(rotationZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		transform = glm::scale(transform, glm::vec3(scale, scale, scale));
+		processInput(window);
 
 		//pass information to the GPU
 		GLuint transforrmLoc = glGetUniformLocation(shaderProgram, "transform");

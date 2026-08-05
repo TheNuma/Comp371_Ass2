@@ -71,7 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>A:\OpenGL\template\include;$(IncludePath)</IncludePath>
+    <IncludePath>A:\OpenGL\template\include;D:\Users\Seth Nowac\Documents\Github\Comp371_Ass2\Comp371_Ass2\dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Users\Seth Nowac\Documents\Github\Comp371_Ass2\Comp371_Ass2\dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>A:\OpenGL\template\include;$(IncludePath)</IncludePath>
@@ -149,6 +150,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
