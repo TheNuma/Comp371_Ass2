@@ -1,9 +1,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+
 
 //vertex shader
 const char* vertexShaderSource = R"(#version 330 core
@@ -182,14 +184,14 @@ int main() {
 
 		//the transformation matrix
 		glm::mat4 transform = glm::mat4(1.0f);
-		//apply initial rotations
+		//apply transformations
+		glm::mat4 transform = glm::mat4(1.0f);
+		transform = glm::translate(transform, glm::vec3(locationX, locationY, 0.0f));
 		transform = glm::rotate(transform, glm::radians(rotationX), glm::vec3(1.0f, 0.0f, 0.0f));
 		transform = glm::rotate(transform, glm::radians(rotationY), glm::vec3(0.0f, 1.0f, 0.0f));
-
-		//Apply translations upon user input
-		transform = glm::translate(transform, glm::vec3(locationX, locationY, 0));
 		transform = glm::rotate(transform, glm::radians(rotationZ), glm::vec3(0.0f, 0.0f, 1.0f));
 		transform = glm::scale(transform, glm::vec3(scale, scale, scale));
+
 		processInput(window);
 
 		//pass information to the GPU
